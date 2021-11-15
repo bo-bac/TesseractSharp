@@ -200,6 +200,9 @@ namespace TesseractSharp
                 throw new TesseractException("Fail to call tesseract", ex);
             }
 
+            if (engine.Result.ExitCode != 0)
+                throw new InvalidOperationException(engine.Result.Error);
+
             return new MemoryStream(Encoding.UTF8.GetBytes(engine.Result.Output));
         }
 
