@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Reflection;
-using NLog;
 using NUnit.Framework;
 
 // DO NOT USE IN PRODUCTION
@@ -19,16 +18,7 @@ namespace TesseractSharpTests
         [SetUp]
         public void SetUp()
         {
-            var config = new NLog.Config.LoggingConfiguration();
-
-            // Targets where to log to: File and Console
-            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
-
-            // Rules for mapping loggers to targets            
-            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
-
-            // Apply config           
-            LogManager.Configuration = config;
+            
 
         }
 
@@ -40,7 +30,7 @@ namespace TesseractSharpTests
             var input  = Path.Combine(assemblyDirectory, @"samples\fakeidcard.bmp");
             var output = Path.Combine(assemblyDirectory, @"samples\fakeidcard.txt");
 
-            using (var stream = Tesseract.ImageToTxt(input, languages: new [] {Language.English, Language.French}))
+            using (var stream = Tesseract.ImageToTxt(input, languages: new[] { Language.English, Language.French }))
             using (var read = new StreamReader(stream))
             {
                 var computed = read.ReadToEnd().Replace("\r\n", "\n").Trim('\f', '\n');

@@ -32,7 +32,6 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="4.6.7" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 

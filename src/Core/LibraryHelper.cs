@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using NLog;
 
 namespace TesseractSharp.Core
 {
@@ -14,8 +14,6 @@ namespace TesseractSharp.Core
     {
         private const string AssemblyVersionFile = "TesseractSharp.version";
         private const string ResourceFile = "TesseractSharpResources.zip";
-
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static LibraryHelper Instance { get; } = new LibraryHelper();
 
@@ -51,7 +49,7 @@ namespace TesseractSharp.Core
             var procArchitecture = _processorArchitecture[RuntimeInformation.ProcessArchitecture];
             var osPlatform = _osPlatforms.Single(kv => RuntimeInformation.IsOSPlatform(kv.Key)).Value;
             _osProc = $"{osPlatform}-{procArchitecture}";
-            Logger.Info($"Idenfity processor architecture '{procArchitecture}' and os platform '{osPlatform}'");
+            Debug.WriteLine($"Idenfity processor architecture '{procArchitecture}' and os platform '{osPlatform}'");
 
             var assembly = Assembly.GetAssembly(typeof(LibraryHelper));
             _assemblyDirectory = Path.GetDirectoryName(assembly.Location);
@@ -122,7 +120,7 @@ namespace TesseractSharp.Core
             path = Path.Combine(binDirectory, name);
             if (!File.Exists(path))
             {
-                Logger.Error($"Fail to find '{name}' in '{binDirectory}'");
+                Debug.WriteLine($"Fail to find '{name}' in '{binDirectory}'");
                 path = null;
                 return false;
             }
@@ -135,7 +133,7 @@ namespace TesseractSharp.Core
             path = Path.Combine(_assemblyDirectory, name);
             if (!Directory.Exists(path))
             {
-                Logger.Error($"Fail to find '{name}' in '{_assemblyDirectory}'");
+                Debug.WriteLine($"Fail to find '{name}' in '{_assemblyDirectory}'");
                 path = null;
                 return false;
             }

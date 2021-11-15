@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using NLog;
 using TesseractSharp.Core;
 
 namespace TesseractSharp
 {
     internal class TesseractEngine
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         private const string TesseractExe = "tesseract.exe";
         private const string TesseractData = "tessdata";
 
@@ -45,14 +43,14 @@ namespace TesseractSharp
             if (!LibraryHelper.Instance.TryGetBinary(TesseractExe, out var tesseractCmd))
                 throw new InvalidOperationException($"'{TesseractExe}' command not found.");
 
-            Logger.Info($"Call '{tesseractCmd} {string.Join(" ", args)}'");
+            Debug.WriteLine($"Call '{tesseractCmd} {string.Join(" ", args)}'");
 
             var result = ProcessHelper.RunProcess(tesseractCmd, args, environmentVariables:  environmentVariables);
 
             if (result.ExitCode != 0) // POSIX
-                Logger.Error(result.Error);
-            
-            Logger.Debug(result.Output);
+                Debug.WriteLine(result.Error);
+
+            Debug.WriteLine(result.Output);
 
             Result = result;
         }
