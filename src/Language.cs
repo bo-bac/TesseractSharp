@@ -38,6 +38,15 @@ namespace TesseractSharp
         OrientationAndScriptDetectionModule = 10,
 
         [Description("rus")]
-        Russian = 11
+        Russian = 11,
+
+        [Description("dan")]
+        Danish = 12,
+
+        [Description("swe")]
+        Swedish = 13,
+
+        [Description("ukr")]
+        Ukrainian = 14
     }
 }
