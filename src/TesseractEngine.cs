@@ -9,6 +9,7 @@ namespace TesseractSharp
 {
     internal class TesseractEngine
     {
+        private const string TesseractFolder = "tesseract";
         private const string TesseractExe = "tesseract.exe";
         private const string TesseractData = "tessdata";
 
@@ -28,8 +29,8 @@ namespace TesseractSharp
                 throw new ArgumentException($"Input file '{inputFilePath}' does not exit.");
 
 
-            if (!LibraryHelper.Instance.TryGetDirectory(TesseractData, out var tesseractData))
-                throw new InvalidOperationException($"'{TesseractData}' directory not found.");
+            if (!LibraryHelper.Instance.TryGetDirectory(TesseractData, TesseractFolder, out var tesseractData))
+                throw new InvalidOperationException($@"'{TesseractFolder}\{TesseractData}' directory not found.");
 
             var environmentVariables = new List<KeyValuePair<string, string>>
             {
@@ -40,8 +41,8 @@ namespace TesseractSharp
                 dotPerInch, psm, oem, languages,
                 configFiles, configVars);
 
-            if (!LibraryHelper.Instance.TryGetBinary(TesseractExe, out var tesseractCmd))
-                throw new InvalidOperationException($"'{TesseractExe}' command not found.");
+            if (!LibraryHelper.Instance.TryGetBinary(TesseractExe, TesseractFolder, out var tesseractCmd))
+                throw new InvalidOperationException($@"'{TesseractFolder}\{TesseractExe}' command not found.");
 
             Debug.WriteLine($"Call '{tesseractCmd} {string.Join(" ", args)}'");
 

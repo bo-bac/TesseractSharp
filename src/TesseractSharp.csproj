@@ -20,13 +20,13 @@
    </Target>
 
   <Target Name="ZipOutputPath" AfterTargets="CreateTempDirectory">
-    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\TesseractSharpResources" DestinationFile="$(TempDirectory)\TesseractSharpResources.zip" Overwrite="true" />
+    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\Resources" DestinationFile="$(TempDirectory)\lib.zip" Overwrite="true" />
   </Target>
 
   <Target Name="EmbeddedResources" AfterTargets="ZipOutputPath">
     <ItemGroup>
-      <EmbeddedResource Include="$(TempDirectory)\TesseractSharpResources.zip">
-        <LogicalName>TesseractSharpResources.zip</LogicalName>
+      <EmbeddedResource Include="$(TempDirectory)\lib.zip">
+        <LogicalName>lib.zip</LogicalName>
       </EmbeddedResource>
     </ItemGroup>
   </Target>

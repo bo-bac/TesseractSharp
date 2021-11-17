@@ -13,7 +13,7 @@ namespace TesseractSharp.Core
     public class LibraryHelper
     {
         private const string AssemblyVersionFile = "TesseractSharp.version";
-        private const string ResourceFile = "TesseractSharpResources.zip";
+        private const string ResourceFile = "lib.zip";
 
         public static LibraryHelper Instance { get; } = new LibraryHelper();
 
@@ -114,9 +114,9 @@ namespace TesseractSharp.Core
             }
         }
 
-        public bool TryGetBinary(string name, out string path)
+        public bool TryGetBinary(string name, string libSubfolder, out string path)
         {
-            var binDirectory = Path.Combine(_assemblyDirectory, _osProc);
+            var binDirectory = Path.Combine(_assemblyDirectory, libSubfolder, _osProc);
             path = Path.Combine(binDirectory, name);
             if (!File.Exists(path))
             {
@@ -128,9 +128,9 @@ namespace TesseractSharp.Core
             return true;
         }
 
-        public bool TryGetDirectory(string name, out string path)
+        public bool TryGetDirectory(string name, string libSubfolder, out string path)
         {
-            path = Path.Combine(_assemblyDirectory, name);
+            path = Path.Combine(_assemblyDirectory, libSubfolder, name);
             if (!Directory.Exists(path))
             {
                 Debug.WriteLine($"Fail to find '{name}' in '{_assemblyDirectory}'");
@@ -139,6 +139,14 @@ namespace TesseractSharp.Core
             }
 
             return true;
+        }
+
+        public string GetTempPath(string subfolder = null)
+        {
+            var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(dir);
+
+            return  Path.Combine(dir, subfolder);
         }
     }
 }
